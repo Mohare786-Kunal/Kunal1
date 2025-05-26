@@ -30,18 +30,3 @@
 	<li><code>1 &lt;= m + n &lt;= 2000</code></li>
 	<li><code>-10<sup>6</sup> &lt;= nums1[i], nums2[i] &lt;= 10<sup>6</sup></code></li>
 </ul>
-
-<p>&nbsp;</p>
-<p><strong>Solution Approach:</strong></p>
-
-<p>To achieve O(log(m+n)) time complexity, we can use a binary search approach:</p>
-
-<ol>
-    <li>We need to find the median of the merged array without actually merging the arrays</li>
-    <li>For arrays of length m and n, we need to find the (m+n+1)/2 th element if total length is odd, or average of (m+n)/2 th and (m+n)/2 + 1 th elements if total length is even</li>
-    <li>We can use binary search to partition both arrays such that all elements in left partition are less than all elements in right partition</li>
-    <li>The median will be either the maximum of left partition or average of max of left and min of right partition</li>
-</ol>
-
-<p>Time Complexity: O(log(m+n))<br>
-Space Complexity: O(1)</p>
