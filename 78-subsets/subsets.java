@@ -1,5 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
 
 class Solution {
      public void subsequence(int index, int[] nums, List<Integer> current, List<List<Integer>> result) {
