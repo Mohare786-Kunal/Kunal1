@@ -1,30 +1,35 @@
 class Solution {
-    public List<List<String>> partition(String s) {
-        List<List<String>> result = new ArrayList<>();
-        PalindromePartitioning(s, new ArrayList<>(), result);
-        System.out.println(result);
-        return result;
-    }
 
-     public static boolean isPalindrome(String s1) {
-        StringBuilder sb = new StringBuilder(s1);
-        String s2 = sb.reverse().toString();
-        return s1.equals(s2);
+       public static boolean isPalindrome(int start, int end, String s) {
+        while (start <= end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
     }
     
-    public static void PalindromePartitioning(String ques, List<String> ll, List<List<String>> result) {
-        if (ques.length() == 0) {
-            result.add(new ArrayList<>(ll));  
+    public static void partitioning(int ind, String s, List<String> path, List<List<String>> result) {
+        if(ind ==s.length()){
+            result.add(new ArrayList<>(path));
             return;
         }
-
-        for (int i = 1; i <= ques.length(); i++) {
-            String s = ques.substring(0, i);
-            if (isPalindrome(s)) {
-                ll.add(s);  
-                PalindromePartitioning(ques.substring(i), ll, result); 
-                ll.remove(ll.size() - 1);  
+        
+        for (int i = ind; i < s.length(); i++) {
+            if(isPalindrome(ind, i, s)){
+                path.add(s.substring(ind, i+1));
+                partitioning(i + 1, s, path, result);
+                path.remove(path.size() - 1);
             }
         }
+    }
+
+    public List<List<String>> partition(String s) {
+        List<List<String>> result =  new ArrayList<>();
+        List<String> path = new ArrayList<>();
+        partitioning(0 ,s ,path ,result);
+        return result;
     }
 }
