@@ -1,37 +1,6 @@
 class Solution {
 
-    public static boolean isSafe(int row, int col, char[][] board, int n) {
-        int row_OG = row;
-        int col_OG = col;
-
-        // Check upper left diagonal
-        while (row >= 0 && col >= 0) {
-            if (board[row][col] == 'Q') return false;
-            row--;
-            col--;
-        }
-
-        // Check left side
-        row = row_OG;
-        col = col_OG;
-        while (col >= 0) {
-            if (board[row][col] == 'Q') return false;
-            col--;
-        }
-
-        // Check lower left diagonal
-        row = row_OG;
-        col = col_OG;
-        while (row < n && col >= 0) {
-            if (board[row][col] == 'Q') return false;
-            row++;
-            col--;
-        }
-
-        return true;
-    }
-
-    public static void nQueens(int col, char[][] board, List<List<String>> result, int n) {
+    public static void nQueens(int col, char[][] board, List<List<String>> result, int n, int[] leftRow, int[] lowerDiagonal, int[] upperDiagonal) {
         if (col == n) {
             List<String> currentBoard = new ArrayList<>();
             for (int i = 0; i < n; i++) {
@@ -40,15 +9,30 @@ class Solution {
             result.add(currentBoard);
             return;
         }
-        
         for (int row = 0; row < board.length; row++) {
-            if (isSafe(row, col, board, n)) {
+            if (leftRow[row] == 0 && lowerDiagonal[row + col] == 0 && upperDiagonal[(n - 1) + (col - row)] == 0) {
+
                 board[row][col] = 'Q';
-                nQueens(col + 1, board, result, n);
+
+                leftRow[row] = 1;
+
+                lowerDiagonal[row + col] = 1;
+
+                upperDiagonal[(n - 1) + (col - row)] = 1;
+
+                nQueens(col + 1, board, result, n, leftRow, lowerDiagonal, upperDiagonal);
+
                 board[row][col] = '.';
+
+                leftRow[row] = 0;
+
+                lowerDiagonal[row + col] = 0;
+
+                upperDiagonal[(n - 1) + (col - row)] = 0;
+                
             }
         }
-    }
+        }
 
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> result = new ArrayList<>();
@@ -58,7 +42,12 @@ class Solution {
                 board[i][j] = '.';
             }
         }
-        nQueens(0, board, result, n);
+
+        int[] leftRow = new int[n];
+        int[] lowerDiagonal = new int[2 * n - 1];
+        int[] upperDiagonal = new int[2 * n - 1];
+
+        nQueens(0, board, result, n, leftRow, lowerDiagonal, upperDiagonal);
         return result;
     }
 }
