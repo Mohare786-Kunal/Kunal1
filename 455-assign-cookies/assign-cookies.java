@@ -13,10 +13,10 @@ class Solution {
 
         while(l<m && r<n){
             if( s[l] >= g[r] ){
-                r = r+1;
+                r ++;
 
             }
-            l = l+1;
+            l ++;
         }
         
 
