@@ -3,7 +3,6 @@ class Solution {
     public static int eraseOverlapIntervals(int[][] intervals) {
         if (intervals.length == 0) return 0;
         
-        // Sort intervals by end time
         Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
         
         int count = 1;
